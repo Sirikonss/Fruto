@@ -30,7 +30,6 @@ class FrutoWindow(arcade.Window):
         self.background = arcade.load_texture('images/background.png')
         self.world = World(width, height)
         self.player_sprite = ModelSprite('images/girl.png', model=self.world.player)
-        self.fruits_list_sprite = []
         self.block1_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_1)
         self.block2_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_2)
         self.block3_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_3)
@@ -52,27 +51,15 @@ class FrutoWindow(arcade.Window):
         self.block5_sprite.draw()
         self.player_sprite.draw()
 
-
-    def level1(self) :
-        A = self.apple_sprite.draw()
-        P = self.pine_sprite.draw()
-        fruits = [P,P,P]
-        for i in range(len(fruits)):
-            fruits[i]
-
-
-
+        arcade.draw_text(str(self.world.score),
+                         self.width - 80, self.height - 50,
+                         arcade.color.WHITE, 20)
 
     def on_key_press(self, key, key_modifiers):
         self.world.on_key_press(key, key_modifiers)
 
     def update(self, delta):
         self.world.update(delta)
-
-
-
-
-
 
 
 
