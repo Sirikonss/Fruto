@@ -26,10 +26,28 @@ class Player :
         return (self.x-50 < other.x < self.x+50) and ( 200 <= other.y <= 300 )
 
     def update(self,delta):
-        #self.move(self.direction)
         pass
 
 class Fruits :
+    def __init__(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(600,900)
+        self.status = False
+        self.is_collected = False
+
+    def is_hit(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(600,800)
+        self.status = False
+
+
+    def update(self,delta,x1,x2) :
+        self.y -= 5
+        if self.y <= 10 :
+            self.x = randint(x1,x2)
+            self.y = randint(500,800)
+
+class Enemies :
     def __init__(self,x1,x2) :
         self.x = randint(x1,x2)
         self.y = randint(600,900)
@@ -51,6 +69,7 @@ class Fruits :
 
 
 
+
 class World :
     def __init__(self,width,height) :
 
@@ -62,6 +81,9 @@ class World :
         self.block_3 = Fruits(500,650)
         self.block_4 = Fruits(650,800)
         self.block_5 = Fruits(800,900)
+        self.enemies_1 = Enemies(100,500)
+        self.enemies_2 = Enemies(500,800)
+
         self.score = 0
 
     def on_mouse_motion(self, x, y, dx, dy) :
@@ -95,8 +117,18 @@ class World :
         elif not self.block_5.status and self.player.hit(self.block_5) :
             self.block_5.is_hit(800,900)
             self.score += 10
+        elif not self.enemies_1.status and self.player.hit(self.enemies_1) :
+            self.enemies_1.is_hit(800,900)
+            self.score -= 20
+        elif not self.enemies_2.status and self.player.hit(self.enemies_2) :
+            self.enemies_2.is_hit(800,900)
+            self.score -= 20
+
+
         self.block_1.update(delta,100,250)
         self.block_2.update(delta,250,500)
         self.block_3.update(delta,500,650)
         self.block_4.update(delta,650,800)
         self.block_5.update(delta,800,900)
+        self.enemies_1.update(delta,100,500)
+        self.enemies_2.update(delta,500,800)

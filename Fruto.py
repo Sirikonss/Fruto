@@ -23,6 +23,7 @@ class ModelSprite(arcade.Sprite):
 
 class FrutoWindow(arcade.Window):
     FRUITS_LIST = ['images/apple.png','images/pineapple.png','images/banana.png','images/orange.png','images/watermelon.png']
+
     def __init__(self, width, height):
         super().__init__(width, height)
 
@@ -37,6 +38,9 @@ class FrutoWindow(arcade.Window):
         self.block3_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_3)
         self.block4_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_4)
         self.block5_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_5)
+        self.enemies_1_sprite = ModelSprite('images/durian.png', model = self.world.enemies_1)
+        self.enemies_2_sprite = ModelSprite('images/durian.png', model = self.world.enemies_2)
+
 
 
 
@@ -51,6 +55,8 @@ class FrutoWindow(arcade.Window):
         self.block3_sprite.draw()
         self.block4_sprite.draw()
         self.block5_sprite.draw()
+        self.enemies_1_sprite.draw()
+        self.enemies_1_sprite.draw()
         self.player_sprite.draw()
 
         arcade.draw_text(str(self.world.score),
