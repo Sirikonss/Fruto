@@ -16,17 +16,18 @@ class Player :
     def __init__(self,x,y) :
         self.x = x
         self.y = y
-        self.direction = DIR_STILL
+        #self.direction = DIR_STILL
 
-    def move(self,direction):
-        self.x += DIR_OFFSETS[direction][0] * MOVEMENT_SPEED
-        self.y += DIR_OFFSETS[direction][1] * MOVEMENT_SPEED
+    #def move(self,direction):
+        #self.x += DIR_OFFSETS[direction][0] * MOVEMENT_SPEED
+        #self.y += DIR_OFFSETS[direction][1] * MOVEMENT_SPEED
 
     def hit(self, other):
         return (self.x-50 < other.x < self.x+50) and ( 200 <= other.y <= 300 )
 
     def update(self,delta):
-        self.move(self.direction)
+        #self.move(self.direction)
+        pass
 
 class Fruits :
     def __init__(self,x1,x2) :
@@ -52,6 +53,7 @@ class Fruits :
 
 class World :
     def __init__(self,width,height) :
+
         self.width = width
         self.height = height
         self.player = Player( 500, 150)
@@ -62,18 +64,22 @@ class World :
         self.block_5 = Fruits(800,900)
         self.score = 0
 
+    def on_mouse_motion(self, x, y, dx, dy) :
+        self.player.x = x
+        self.player.y = 100
 
-    def on_key_press(self, key, key_modifiers):
+
+    """def on_key_press(self, key, key_modifiers):
         if key == arcade.key.LEFT:
             self.player.direction = DIR_LEFT
         elif key == arcade.key.RIGHT:
             self.player.direction = DIR_RIGHT
         elif key == arcade.key.DOWN:
-            self.player.direction = DIR_STILL
+            self.player.direction = DIR_STILL"""
 
 
     def update(self,delta) :
-        self.player.update(delta)
+        #self.player.update(delta)
         if not self.block_1.status and self.player.hit(self.block_1) :
             self.block_1.is_hit(100,250)
             self.score += 10

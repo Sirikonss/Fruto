@@ -26,9 +26,11 @@ class FrutoWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
 
+
         arcade.set_background_color(arcade.color.BABY_BLUE)
         self.background = arcade.load_texture('images/background.png')
         self.world = World(width, height)
+        self.set_mouse_visible(False)
         self.player_sprite = ModelSprite('images/girl.png', model=self.world.player)
         self.block1_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_1)
         self.block2_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_2)
@@ -55,8 +57,11 @@ class FrutoWindow(arcade.Window):
                          self.width - 80, self.height - 50,
                          arcade.color.WHITE, 20)
 
-    def on_key_press(self, key, key_modifiers):
-        self.world.on_key_press(key, key_modifiers)
+    def on_mouse_motion(self, x, y , dx, dy):
+        self.world.on_mouse_motion(x, y, dx, dy)
+
+
+
 
     def update(self, delta):
         self.world.update(delta)
