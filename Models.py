@@ -10,7 +10,7 @@ class Player :
 
 
     def hit(self, other):
-        return (self.x-50 < other.x < self.x+50) and ( 200 <= other.y <= 300 )
+        return (self.x-50 < other.x < self.x+50) and ( 150 <= other.y <= 250 )
 
     def update(self,delta):
         pass
@@ -56,21 +56,22 @@ class Enemies :
 class Bomb :
     def __init__(self,x1,x2) :
         self.x = randint(x1,x2)
-        self.y = randint(600,900)
+        self.y = randint(1000,1200)
         self.status = False
         self.is_collected = False
 
     def is_hit(self,x1,x2) :
         self.x = randint(x1,x2)
-        self.y = randint(600,800)
+        self.y = randint(1000,1200)
         self.status = False
+
 
 
     def update(self,delta,x1,x2) :
         self.y -= 5
         if self.y <= 10 :
             self.x = randint(x1,x2)
-            self.y = randint(500,800)
+            self.y = randint(1000,1200)
 
 
 
@@ -93,8 +94,10 @@ class World :
         self.bomb_2 = Bomb(500,900)
 
 
+
         self.score = 0
         self.life = 3
+        self.game_over = False
 
     def on_mouse_motion(self, x, y, dx, dy) :
         self.player.x = x

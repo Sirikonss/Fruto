@@ -12,6 +12,9 @@ class ModelSprite(arcade.Sprite):
 
         super().__init__(*args, **kwargs)
 
+
+
+
     def sync_with_model(self):
         if self.model:
             self.set_position(self.model.x, self.model.y)
@@ -75,6 +78,9 @@ class FrutoWindow(arcade.Window):
             arcade.draw_text("O",
                          w, self.height - 50,
                          arcade.color.WHITE, 20)
+            #arcade.load_texture("images/life.png",w, self.height - 50
+             )
+
             w += 20
 
     def on_mouse_motion(self, x, y , dx, dy):
