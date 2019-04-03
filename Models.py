@@ -2,25 +2,12 @@ import arcade.key
 from random import randint
 import sys
 
-DIR_STILL = 0
-DIR_LEFT = 1
-DIR_RIGHT = 2
-
-DIR_OFFSETS = { DIR_STILL: (0,0),
-                DIR_RIGHT: (1,0),
-                DIR_LEFT: (-1,0) }
-
-MOVEMENT_SPEED = 5
 
 class Player :
     def __init__(self,x,y) :
         self.x = x
         self.y = y
-        #self.direction = DIR_STILL
 
-    #def move(self,direction):
-        #self.x += DIR_OFFSETS[direction][0] * MOVEMENT_SPEED
-        #self.y += DIR_OFFSETS[direction][1] * MOVEMENT_SPEED
 
     def hit(self, other):
         return (self.x-50 < other.x < self.x+50) and ( 200 <= other.y <= 300 )
@@ -61,7 +48,26 @@ class Enemies :
 
 
     def update(self,delta,x1,x2) :
-        self.y -= 3
+        self.y -= 5
+        if self.y <= 10 :
+            self.x = randint(x1,x2)
+            self.y = randint(500,800)
+
+class Bomb :
+    def __init__(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(600,900)
+        self.status = False
+        self.is_collected = False
+
+    def is_hit(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(600,800)
+        self.status = False
+
+
+    def update(self,delta,x1,x2) :
+        self.y -= 5
         if self.y <= 10 :
             self.x = randint(x1,x2)
             self.y = randint(500,800)
@@ -83,21 +89,16 @@ class World :
         self.block_5 = Fruits(800,900)
         self.enemies_1 = Enemies(100,500)
         self.enemies_2 = Enemies(500,800)
+        self.bomb_1 = Bomb(100,500)
+        self.bomb_2 = Bomb(500,900)
+
 
         self.score = 0
+        self.life = 3
 
     def on_mouse_motion(self, x, y, dx, dy) :
         self.player.x = x
         self.player.y = 100
-
-
-    """def on_key_press(self, key, key_modifiers):
-        if key == arcade.key.LEFT:
-            self.player.direction = DIR_LEFT
-        elif key == arcade.key.RIGHT:
-            self.player.direction = DIR_RIGHT
-        elif key == arcade.key.DOWN:
-            self.player.direction = DIR_STILL"""
 
 
     def update(self,delta) :
@@ -123,6 +124,12 @@ class World :
         elif not self.enemies_2.status and self.player.hit(self.enemies_2) :
             self.enemies_2.is_hit(800,900)
             self.score -= 20
+        elif not self.bomb_1.status and self.player.hit(self.bomb_1) :
+            self.bomb_1.is_hit(100,500)
+            self.life -= 1
+        elif not self.bomb_2.status and self.player.hit(self.bomb_2) :
+            self.bomb_2.is_hit(500,900)
+            self.life -= 1
 
 
         self.block_1.update(delta,100,250)
@@ -132,3 +139,5 @@ class World :
         self.block_5.update(delta,800,900)
         self.enemies_1.update(delta,100,500)
         self.enemies_2.update(delta,500,800)
+        self.bomb_1.update(delta,100,500)
+        self.bomb_2.update(delta,500,900)

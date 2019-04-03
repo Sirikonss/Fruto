@@ -40,6 +40,9 @@ class FrutoWindow(arcade.Window):
         self.block5_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_5)
         self.enemies_1_sprite = ModelSprite('images/durian.png', model = self.world.enemies_1)
         self.enemies_2_sprite = ModelSprite('images/durian.png', model = self.world.enemies_2)
+        self.bomb_1_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_1)
+        self.bomb_2_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_2)
+        #self.bomb_3_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_3)
 
 
 
@@ -57,11 +60,22 @@ class FrutoWindow(arcade.Window):
         self.block5_sprite.draw()
         self.enemies_1_sprite.draw()
         self.enemies_1_sprite.draw()
+        self.bomb_1_sprite.draw()
+        self.bomb_2_sprite.draw()
+        #self.bomb_3_sprite.draw()
+
         self.player_sprite.draw()
 
-        arcade.draw_text(str(self.world.score),
-                         self.width - 80, self.height - 50,
+        arcade.draw_text("Score : " + str(self.world.score),
+                         50, self.height - 50,
                          arcade.color.WHITE, 20)
+
+        w = self.width - 100
+        for i in range(self.world.life):
+            arcade.draw_text("O",
+                         w, self.height - 50,
+                         arcade.color.WHITE, 20)
+            w += 20
 
     def on_mouse_motion(self, x, y , dx, dy):
         self.world.on_mouse_motion(x, y, dx, dy)
