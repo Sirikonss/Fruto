@@ -6,6 +6,10 @@ import time
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 
+INSTRUCTIONS_PAGE_0 = 0
+GAME_RUNNING = 1
+GAME_OVER = 2
+
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
         self.model = kwargs.pop('model', None)
@@ -35,6 +39,9 @@ class FrutoWindow(arcade.Window):
         self.background = arcade.load_texture('images/background.png')
         self.world = World(width, height)
         self.set_mouse_visible(False)
+        self.current_state = GAME_RUNNING
+
+
         self.player_sprite = ModelSprite('images/girl.png', model=self.world.player)
         self.block1_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_1)
         self.block2_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_2)
@@ -47,12 +54,20 @@ class FrutoWindow(arcade.Window):
         self.bomb_2_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_2)
         #self.bomb_3_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_3)
 
+    def draw_game_over(self):
+        """
+        Draw "Game over" across the screen.
+        """
+        output = "Game Over"
+        arcade.draw_text(output, 350, 300, arcade.color.WHITE, 54)
 
+        
+        
 
+        #output = "Click to restart"
+        #arcade.draw_text(output, 310, 300, arcade.color.WHITE, 24)
 
-
-    def on_draw(self):
-        arcade.start_render()
+    def draw_game(self) :
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
@@ -72,25 +87,43 @@ class FrutoWindow(arcade.Window):
         arcade.draw_text("Score : " + str(self.world.score),
                          50, self.height - 50,
                          arcade.color.WHITE, 20)
+        arcade.draw_text("Highest Score : " + str(self.world.highest_score),
+                         50, self.height - 100,
+                         arcade.color.WHITE, 20)
 
         w = self.width - 100
         for i in range(self.world.life):
             arcade.draw_text("O",
                          w, self.height - 50,
                          arcade.color.WHITE, 20)
-            #arcade.load_texture("images/life.png",w, self.height - 50
-             )
 
             w += 20
 
+    def on_draw(self):
+        arcade.start_render()
+        if self.world.game_over == False:
+            self.draw_game()
+        elif self.world.game_over == True : 
+            self.draw_game()
+            self.draw_game_over()
+            
+            
+        
     def on_mouse_motion(self, x, y , dx, dy):
         self.world.on_mouse_motion(x, y, dx, dy)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if self.world.game_over == True :
+            self.world.game_over == False
+            #self.draw_game()
 
 
 
 
     def update(self, delta):
         self.world.update(delta)
+
+
 
 
 

@@ -96,12 +96,23 @@ class World :
 
 
         self.score = 0
+        self.score_list = []
+        self.highest_score = 0
         self.life = 3
         self.game_over = False
 
     def on_mouse_motion(self, x, y, dx, dy) :
         self.player.x = x
         self.player.y = 100
+
+    def game_over(self) :
+        if self.life == 0 :
+            self.score_list.append(self.score)
+            self.highest_score = max(self.score_list)
+            self.game_over =True
+            self.score = 0
+            self.life = 3
+    
 
 
     def update(self,delta) :
@@ -133,8 +144,7 @@ class World :
         elif not self.bomb_2.status and self.player.hit(self.bomb_2) :
             self.bomb_2.is_hit(500,900)
             self.life -= 1
-
-
+        World.game_over(self)
         self.block_1.update(delta,100,250)
         self.block_2.update(delta,250,500)
         self.block_3.update(delta,500,650)
