@@ -99,27 +99,26 @@ class FrutoWindow(arcade.Window):
 
             w += 20
 
+
     def on_draw(self):
         arcade.start_render()
         if self.world.game_over == False:
             self.draw_game()
         elif self.world.game_over == True : 
-            self.draw_game()
+            #self.draw_game()
             self.draw_game_over()
             
-            
-        
     def on_mouse_motion(self, x, y , dx, dy):
         self.world.on_mouse_motion(x, y, dx, dy)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        #self.world.on_key_press(key, modifiers)
         if self.world.game_over == True :
-            self.world.game_over == False
-            #self.draw_game()
+            # Restart the game.
+            self.world.game_over = False
+        
 
-
-
-
+        
     def update(self, delta):
         self.world.update(delta)
 

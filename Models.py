@@ -105,6 +105,10 @@ class World :
         self.player.x = x
         self.player.y = 100
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.SPACE :
+            self.game_over == False
+
     def game_over(self) :
         if self.life == 0 :
             self.score_list.append(self.score)
@@ -154,3 +158,4 @@ class World :
         self.enemies_2.update(delta,500,800)
         self.bomb_1.update(delta,100,500)
         self.bomb_2.update(delta,500,900)
+        
