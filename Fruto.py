@@ -16,9 +16,6 @@ class ModelSprite(arcade.Sprite):
 
         super().__init__(*args, **kwargs)
 
-
-
-
     def sync_with_model(self):
         if self.model:
             self.set_position(self.model.x, self.model.y)
@@ -59,13 +56,15 @@ class FrutoWindow(arcade.Window):
         Draw "Game over" across the screen.
         """
         output = "Game Over"
-        arcade.draw_text(output, 350, 300, arcade.color.WHITE, 54)
+        arcade.draw_text(output, 320, 350, arcade.color.WHITE, 54)
 
-        
-        
+        arcade.draw_text("Highest Score : " + str(self.world.highest_score),
+                         360,250,
+                         arcade.color.WHITE_SMOKE, 24)
 
-        #output = "Click to restart"
-        #arcade.draw_text(output, 310, 300, arcade.color.WHITE, 24)
+
+        output = "Click to restart"
+        arcade.draw_text(output, 400, 150, arcade.color.WHITE, 24)
 
     def draw_game(self) :
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
@@ -87,17 +86,18 @@ class FrutoWindow(arcade.Window):
         arcade.draw_text("Score : " + str(self.world.score),
                          50, self.height - 50,
                          arcade.color.WHITE, 20)
-        arcade.draw_text("Highest Score : " + str(self.world.highest_score),
-                         50, self.height - 100,
-                         arcade.color.WHITE, 20)
+        
 
-        w = self.width - 100
+        w = self.width - 200
         for i in range(self.world.life):
-            arcade.draw_text("O",
-                         w, self.height - 50,
-                         arcade.color.WHITE, 20)
+            #arcade.draw_text("O",
+                         #w, self.height - 50,
+                         #arcade.color.WHITE, 20)
+            x = arcade.Sprite('images/life.png')
+            x.set_position(w,550)
+            x.draw()
 
-            w += 20
+            w += 60
 
 
     def on_draw(self):
