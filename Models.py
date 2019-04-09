@@ -10,7 +10,7 @@ class Player :
 
 
     def hit(self, other):
-        return (self.x-50 < other.x < self.x+50) and ( 150 <= other.y <= 250 )
+        return (self.x-50 < other.x < self.x+50) and ( 50 <= other.y <= 200 )
 
     def update(self,delta):
         pass
@@ -87,6 +87,7 @@ class World :
         self.width = width
         self.height = height
         self.score = 0
+        self.latest_score = 0
         self.score_list = []
         self.highest_score = 0
         self.life = 3
@@ -118,6 +119,7 @@ class World :
     def game_over(self) :
         if self.life == 0 :
             self.score_list.append(self.score)
+            self.latest_score = self.score
             self.highest_score = max(self.score_list)
             self.game_over =True
             self.score = 0
@@ -179,6 +181,8 @@ class World :
             World.up_speed(self,delta,7)
         elif self.score >= 300 :
             World.up_speed(self,delta,9)
+        elif self.score >= 500 :
+            World.up_speed(self,delta,11)
         else:
             World.up_speed(self,delta,5)
             

@@ -32,14 +32,14 @@ class FrutoWindow(arcade.Window):
         super().__init__(width, height)
 
 
-        arcade.set_background_color(arcade.color.BABY_BLUE)
-        self.background = arcade.load_texture('images/background.png')
+        #self.background = arcade.set_background_color(arcade.color.BABY_BLUE)
+        self.background = arcade.load_texture('images/bg.png')
         self.world = World(width, height)
         self.set_mouse_visible(False)
         self.current_state = GAME_RUNNING
 
 
-        self.player_sprite = ModelSprite('images/girl.png', model=self.world.player)
+        self.player_sprite = ModelSprite('images/santa.png', model=self.world.player)
         self.block1_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_1)
         self.block2_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_2)
         self.block3_sprite = ModelSprite(FrutoWindow.FRUITS_LIST[randint(0,4)],model=self.world.block_3)
@@ -58,8 +58,12 @@ class FrutoWindow(arcade.Window):
         output = "Game Over"
         arcade.draw_text(output, 320, 350, arcade.color.WHITE, 54)
 
+        arcade.draw_text("Your Score : " + str(self.world.latest_score),
+                         380, 280,
+                         arcade.color.WHITE, 24)
+
         arcade.draw_text("Highest Score : " + str(self.world.highest_score),
-                         360,250,
+                         360,230,
                          arcade.color.WHITE_SMOKE, 24)
 
 
