@@ -26,7 +26,8 @@ class ModelSprite(arcade.Sprite):
 
 
 class FrutoWindow(arcade.Window):
-    FRUITS_LIST = ['images/apple.png','images/pineapple.png','images/banana.png','images/orange.png','images/watermelon.png']
+    #FRUITS_LIST = ['images/apple.png','images/pineapple.png','images/banana.png','images/orange.png','images/watermelon.png']
+    FRUITS_LIST = ['images/bear.png','images/snowman.png','images/gift.png','images/gift.png','images/gift.png']
 
     def __init__(self, width, height):
         super().__init__(width, height)

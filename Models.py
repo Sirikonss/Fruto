@@ -183,6 +183,8 @@ class World :
             World.up_speed(self,delta,9)
         elif self.score >= 500 :
             World.up_speed(self,delta,11)
+        elif self.score >= 700 :
+            World.up_speed(self,delta,13)
         else:
             World.up_speed(self,delta,5)
             
