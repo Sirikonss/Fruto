@@ -2,6 +2,15 @@ import arcade.key
 from random import randint
 import sys
 
+class Snow :
+    def __init__(self) :
+        self.x = 500
+        self.y = 800
+
+    def update(self,delta) :
+        self.y -= 2
+    
+
 
 class Player :
     def __init__(self,x,y) :
@@ -25,7 +34,7 @@ class Fruits :
 
     def is_hit(self,x1,x2) :
         self.x = randint(x1,x2)
-        self.y = randint(600,800)
+        self.y = randint(700,900)
         self.status = False
 
 
@@ -33,7 +42,7 @@ class Fruits :
         self.y -= y
         if self.y <= 10 :
             self.x = randint(x1,x2)
-            self.y = randint(500,800)
+            self.y = randint(600,900)
         
 
         
@@ -47,7 +56,7 @@ class Enemies :
 
     def is_hit(self,x1,x2) :
         self.x = randint(x1,x2)
-        self.y = randint(600,800)
+        self.y = randint(700,800)
         self.status = False
 
 
@@ -55,7 +64,7 @@ class Enemies :
         self.y -= y
         if self.y <= 10 :
             self.x = randint(x1,x2)
-            self.y = randint(500,800)
+            self.y = randint(600,800)
 
 class Bomb :
     def __init__(self,x1,x2) :
@@ -93,6 +102,7 @@ class World :
         self.life = 3
         self.game_over = False
 
+        self.snow = Snow()
         self.player = Player( 500, 150)
         self.block_1 = Fruits(100,250)
         self.block_2 = Fruits(250,500)
@@ -104,17 +114,10 @@ class World :
         self.bomb_1 = Bomb(100,500)
         self.bomb_2 = Bomb(500,900)
 
-
-
-        
-
     def on_mouse_motion(self, x, y, dx, dy) :
         self.player.x = x
         self.player.y = 100
 
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.SPACE :
-            self.game_over == False
 
     def game_over(self) :
         if self.life == 0 :
@@ -146,12 +149,10 @@ class World :
             self.enemies_1.is_hit(800,900)
             if self.score >= 20 :
                 self.score -= 20
-
         elif not self.enemies_2.status and self.player.hit(self.enemies_2) :
             self.enemies_2.is_hit(800,900)
             if self.score >= 20 :
                 self.score -= 20
-
         elif not self.bomb_1.status and self.player.hit(self.bomb_1) :
             self.bomb_1.is_hit(100,500)
             self.life -= 1
@@ -170,22 +171,26 @@ class World :
         self.bomb_1.update(delta,100,500,y)
         self.bomb_2.update(delta,500,900,y)
 
-
-
-
     def update(self,delta) :
         #self.player.update(delta)
+        self.snow.update(delta)
         World.check_hit(self)
         World.game_over(self)
         if self.score >= 100 :
-            World.up_speed(self,delta,7)
-        elif self.score >= 300 :
-            World.up_speed(self,delta,9)
-        elif self.score >= 500 :
-            World.up_speed(self,delta,11)
-        elif self.score >= 700 :
-            World.up_speed(self,delta,13)
+            World.up_speed(self,delta,5.2)
+        if self.score >= 300 :
+            World.up_speed(self,delta,5.4)
+        if self.score >= 500 :
+            World.up_speed(self,delta,5.6)
+        if self.score >= 700 :
+            World.up_speed(self,delta,5.8)
+        if self.score >= 900 :
+            World.up_speed(self,delta,6)
         else:
             World.up_speed(self,delta,5)
+
+        
             
+        
+        
         
