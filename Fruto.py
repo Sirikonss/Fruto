@@ -51,6 +51,7 @@ class FrutoWindow(arcade.Window):
         self.enemies_2_sprite = ModelSprite('images/durian.png', model = self.world.enemies_2)
         self.bomb_1_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_1)
         self.bomb_2_sprite = ModelSprite('images/bomb.png', model = self.world.bomb_2)
+        self.heart_sprite = ModelSprite('images/life.png',model = self.world.heart)
 
 
     def draw_game_over(self):
@@ -78,7 +79,9 @@ class FrutoWindow(arcade.Window):
         self.enemies_1_sprite.draw()
         self.bomb_1_sprite.draw()
         self.bomb_2_sprite.draw()
+        self.heart_sprite.draw()
         self.player_sprite.draw()
+        
 
         arcade.draw_text("Score : " + str(self.world.score),
                          50, self.height - 50,

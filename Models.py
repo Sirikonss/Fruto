@@ -1,6 +1,6 @@
 import arcade.key
 from random import randint
-import sys
+import time
 
 class Snow :
     def __init__(self) :
@@ -10,7 +10,6 @@ class Snow :
     def update(self,delta) :
         self.y -= 2
     
-
 
 class Player :
     def __init__(self,x,y) :
@@ -43,8 +42,6 @@ class Fruits :
         if self.y <= 10 :
             self.x = randint(x1,x2)
             self.y = randint(600,900)
-        
-
         
 
 class Enemies :
@@ -86,6 +83,24 @@ class Bomb :
             self.x = randint(x1,x2)
             self.y = randint(1000,1200)
 
+class Heart :
+    def __init__(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(3000,5000)
+        self.status = False
+        self.is_collected = False
+
+    def is_hit(self,x1,x2) :
+        self.x = randint(x1,x2)
+        self.y = randint(3000,5000)
+        self.status = False
+
+
+    def update(self,delta,x1,x2,y) :
+        self.y -= y
+        if self.y <= 10 :
+            self.x = randint(x1,x2)
+            self.y = randint(1000,1200)
 
 
 
@@ -113,11 +128,12 @@ class World :
         self.enemies_2 = Enemies(500,800)
         self.bomb_1 = Bomb(100,500)
         self.bomb_2 = Bomb(500,900)
+        self.heart = Heart(200,800)
+        
 
     def on_mouse_motion(self, x, y, dx, dy) :
         self.player.x = x
         self.player.y = 100
-
 
     def game_over(self) :
         if self.life == 0 :
@@ -159,6 +175,11 @@ class World :
         elif not self.bomb_2.status and self.player.hit(self.bomb_2) :
             self.bomb_2.is_hit(500,900)
             self.life -= 1
+        elif not self.heart.status and self.player.hit(self.heart) :
+            self.heart.is_hit(200,800)
+            if self.life < 3 :
+                self.life += 1
+            self.life += 0
 
     def up_speed(self,delta,y) :
         self.block_1.update(delta,100,250,y)
@@ -170,6 +191,7 @@ class World :
         self.enemies_2.update(delta,500,800,y)
         self.bomb_1.update(delta,100,500,y)
         self.bomb_2.update(delta,500,900,y)
+        self.heart.update(delta,200,800,y)
 
     def update(self,delta) :
         #self.player.update(delta)
@@ -177,15 +199,15 @@ class World :
         World.check_hit(self)
         World.game_over(self)
         if self.score >= 100 :
-            World.up_speed(self,delta,5.2)
+            World.up_speed(self,delta,5.1)
         if self.score >= 300 :
-            World.up_speed(self,delta,5.4)
+            World.up_speed(self,delta,5.2)
         if self.score >= 500 :
-            World.up_speed(self,delta,5.6)
+            World.up_speed(self,delta,5.3)
         if self.score >= 700 :
-            World.up_speed(self,delta,5.8)
+            World.up_speed(self,delta,5.4)
         if self.score >= 900 :
-            World.up_speed(self,delta,6)
+            World.up_speed(self,delta,5.5)
         else:
             World.up_speed(self,delta,5)
 
