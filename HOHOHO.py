@@ -9,6 +9,7 @@ SCREEN_HEIGHT = 600
 INSTRUCTIONS_PAGE_0 = 0
 GAME_RUNNING = 1
 GAME_OVER = 2
+GAME_WIN = 3
 
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
@@ -52,7 +53,21 @@ class HoHoHoWindow(arcade.Window):
 
 
     def draw_game_over(self):
+        arcade.set_background_color(arcade.color.BABY_BLUE)
         output = "Game Over"
+        arcade.draw_text(output, 320, 350, arcade.color.WHITE, 54)
+        arcade.draw_text("Your Score : " + str(self.world.latest_score),
+                         380, 280,
+                         arcade.color.WHITE, 24)
+        arcade.draw_text("Highest Score : " + str(self.world.highest_score),
+                         360,230,
+                         arcade.color.WHITE_SMOKE, 24)
+        output = "Click to restart"
+        arcade.draw_text(output, 400, 150, arcade.color.WHITE, 24)
+
+    def draw_game_win(self):
+        arcade.set_background_color(arcade.color.PINK_PEARL)
+        output = "Game Win"
         arcade.draw_text(output, 320, 350, arcade.color.WHITE, 54)
         arcade.draw_text("Your Score : " + str(self.world.latest_score),
                          380, 280,
@@ -110,8 +125,10 @@ class HoHoHoWindow(arcade.Window):
             self.draw_instruction()
         elif self.current_state == GAME_RUNNING:
             self.draw_game()
-        else:
+        elif self.current_state == GAME_OVER:
             self.draw_game_over()
+        elif self.current_state == GAME_WIN:
+            self.draw_game_win()
             
     def on_mouse_motion(self, x, y , dx, dy):
         self.world.on_mouse_motion(x, y, dx, dy)
@@ -120,15 +137,24 @@ class HoHoHoWindow(arcade.Window):
         
         if self.current_state == INSTRUCTIONS_PAGE_0: 
             self.current_state = GAME_RUNNING
+            self.world.time.status = True
         elif self.current_state == GAME_OVER :
             self.world.game_over = False
             self.current_state = GAME_RUNNING
+            self.world.time.status = True
+        elif self.current_state == GAME_WIN :
+            self.world.game_win = False
+            self.current_state = GAME_RUNNING
+            self.world.time.status = True
 
         
     def update(self, delta):
         self.world.update(delta)
         if self.world.game_over == True :
             self.current_state = GAME_OVER
+        if self.world.game_win == True :
+            self.current_state = GAME_WIN
+        
        
 
 if __name__ == '__main__':

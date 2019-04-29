@@ -84,18 +84,20 @@ class Heart :
             self.y = randint(1000,1200)
 
 class Time :
-    def __init__(self,t) :
-        self.total_time = t
-        self.status = False
+    def __init__(self,time) :
+        self.total_time = time
+        self.status = None
+        
+    def update(self, delta_time):
+        if self.status == True :
+            self.total_time -= delta_time
+            if self.total_time <= 0 :
+                self.status = False
         
 
-    def update(self, delta_time):
-        self.total_time -= delta_time
-        if self.total_time == 0 :
-            self.status = True 
-
-
 class World :
+    TIME = 30
+
     def __init__(self,width,height) :
 
         self.width = width
@@ -106,7 +108,10 @@ class World :
         self.highest_score = 0
         self.life = 3
         self.game_over = False
+        self.game_win = False
+        self.goal = 300
 
+        self.int_time = 30
         self.time = Time(30)
         self.snow = Snow()
         self.player = Player( 500, 150)
@@ -127,23 +132,39 @@ class World :
     def set_up(self) :
         self.score = 0
         self.life = 3
+        self.time = Time(30)
 
-    
+    def level_up(self) :
+        self.goal += 200
+        self.int_time += 15
+        self.time = Time(self.int_time)
 
+        
 
     def game_over(self) :
-        if self.time.status == True :
+        if self.time.status == False :
             self.score_list.append(self.score)
             self.latest_score = self.score
             self.highest_score = max(self.score_list)
             self.game_over =True
-            World.set_up(self)
-        elif self.life == 0 :
+            self.set_up()
+        if self.life == 0 :
             self.score_list.append(self.score)
             self.latest_score = self.score
             self.highest_score = max(self.score_list)
             self.game_over =True
-            World.set_up(self)
+            self.set_up()
+    
+    def game_win(self) :
+        if (self.time.status == False) or (self.score >= self.goal) :
+            self.score_list.append(self.score)
+            self.latest_score = self.score
+            self.highest_score = max(self.score_list)
+            self.game_win = True
+            self.set_up()
+            self.level_up()
+            
+                
 
 
     def check_hit(self) :
@@ -189,16 +210,17 @@ class World :
         self.time.update(delta)
         World.check_hit(self)
         World.game_over(self)
+        World.game_win(self)
         if self.score >= 100 :
-            World.up_speed(self,delta,5.1)
+            World.up_speed(self,delta,5.05)
         if self.score >= 300 :
-            World.up_speed(self,delta,5.2)
+            World.up_speed(self,delta,5.1)
         if self.score >= 500 :
-            World.up_speed(self,delta,5.3)
+            World.up_speed(self,delta,5.15)
         if self.score >= 700 :
-            World.up_speed(self,delta,5.4)
+            World.up_speed(self,delta,5.2)
         if self.score >= 900 :
-            World.up_speed(self,delta,5.5)
+            World.up_speed(self,delta,5.25)
         else:
             World.up_speed(self,delta,5)
 
