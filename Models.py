@@ -95,8 +95,7 @@ class Time :
                 self.status = False
         
 
-class World :
-    TIME = 30
+class World:
 
     def __init__(self,width,height) :
 
@@ -107,9 +106,11 @@ class World :
         self.score_list = []
         self.highest_score = 0
         self.life = 3
-        self.game_over = False
+        self.game_over_normal = False
+        self.game_over_challenge = False
         self.game_win = False
         self.goal = 300
+        self.latest_score = 300
 
         self.int_time = 30
         self.time = Time(30)
@@ -132,29 +133,41 @@ class World :
     def set_up(self) :
         self.score = 0
         self.life = 3
+        
         self.time = Time(30)
 
     def level_up(self) :
         self.goal += 200
+        self.latest_goal = self.goal
         self.int_time += 15
         self.time = Time(self.int_time)
 
-        
-
-    def game_over(self) :
-        if self.time.status == False :
-            self.score_list.append(self.score)
-            self.latest_score = self.score
-            self.highest_score = max(self.score_list)
-            self.game_over =True
-            self.set_up()
+    def game_over_normal(self) :
         if self.life == 0 :
             self.score_list.append(self.score)
             self.latest_score = self.score
             self.highest_score = max(self.score_list)
-            self.game_over =True
+            self.game_over_normal = True
             self.set_up()
-    
+      
+
+    def game_over_challenge(self) :
+        if self.time.status == False :
+            self.score_list.append(self.score)
+            self.latest_score = self.score
+            self.highest_score = max(self.score_list)
+            self.game_over_challenge =True
+            self.set_up()
+            self.goal = 300
+            
+        if self.life == 0 :
+            self.score_list.append(self.score)
+            self.latest_score = self.score
+            self.highest_score = max(self.score_list)
+            self.game_over_challenge = True
+            self.set_up()
+            self.goal = 300
+
     def game_win(self) :
         if (self.time.status == False) or (self.score >= self.goal) :
             self.score_list.append(self.score)
@@ -163,9 +176,6 @@ class World :
             self.game_win = True
             self.set_up()
             self.level_up()
-            
-                
-
 
     def check_hit(self) :
         if not self.block_1.status and self.player.hit(self.block_1) :
@@ -205,12 +215,7 @@ class World :
         self.bomb_2.update(delta,500,900,y)
         self.heart.update(delta,200,800,y)
 
-    def update(self,delta) :
-        self.snow.update(delta)
-        self.time.update(delta)
-        World.check_hit(self)
-        World.game_over(self)
-        World.game_win(self)
+    def check_speed(self,delta) :
         if self.score >= 100 :
             World.up_speed(self,delta,5.05)
         if self.score >= 300 :
@@ -224,8 +229,18 @@ class World :
         else:
             World.up_speed(self,delta,5)
 
-        
-            
-        
-        
+    def update_challenge(self,delta) :
+        #self.snow.update(delta)
+        self.time.update(delta)
+        World.check_hit(self)
+        World.game_over_challenge(self)
+        World.game_win(self)
+        World.check_speed(self,delta)
+
+    def update_normal(self,delta) :
+        #self.snow.update(delta)
+        self.time.update(delta)
+        World.check_hit(self)
+        World.game_over_normal(self)
+        World.check_speed(self,delta)
         
