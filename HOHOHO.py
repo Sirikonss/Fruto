@@ -38,8 +38,8 @@ class HoHoHoWindow(arcade.Window):
 
 
         #self.background = arcade.set_background_color(arcade.color.BABY_BLUE)
-        self.game_cover = arcade.load_texture('images/inst/inst1_1.png')
-        self.game_instruction = [arcade.load_texture('images/inst/inst1_2.png'),arcade.load_texture('images/inst/inst2.png')]
+        self.game_cover = arcade.load_texture('inst/inst1_1.png')
+        self.game_instruction = [arcade.load_texture('inst/inst1_2.png'),arcade.load_texture('inst/inst2.png')]
         self.background = arcade.load_texture('images/bg.png')
         self.world = World(width, height)
         self.set_mouse_visible(True)
@@ -59,14 +59,14 @@ class HoHoHoWindow(arcade.Window):
     def draw_score(self,score,w,h,sc,d):
         x = str(score)
         for i in range(len(x)):
-            num = arcade.Sprite(f'images/number/{int(x[i])}.png',scale= sc)
+            num = arcade.Sprite(f'number/{int(x[i])}.png',scale= sc)
             num.set_position(w+(i+1)*d, self.height - h)
             num.draw()
 
     def draw_goal(self,goal,w,h,sc,d):
         goal = str(goal)
         for i in range(len(goal)):
-            num = arcade.Sprite(f'images/number/{int(goal[i])}.png',scale=sc)
+            num = arcade.Sprite(f'number/{int(goal[i])}.png',scale=sc)
             num.set_position(w+(i+1)*d,self.height - h)
             num.draw()
 
@@ -115,7 +115,7 @@ class HoHoHoWindow(arcade.Window):
 
     def draw_game_normal(self) :
         self.draw_game()
-        score = arcade.Sprite('images/number/score.png',scale = 0.7)
+        score = arcade.Sprite('number/score.png',scale = 0.7)
         score.set_position(100,550)
         score.draw()
         self.draw_score(self.world.score,180,52,0.5,30)
@@ -128,20 +128,20 @@ class HoHoHoWindow(arcade.Window):
         sec = int(self.world.time.total_time) % 60
         seconds = f"{sec:02d}"
         for i in range(len(str(minutes))) :
-            num1 = arcade.Sprite(f'images/number/{int(minutes[i])}.png',scale=0.5)
+            num1 = arcade.Sprite(f'number/{int(minutes[i])}.png',scale=0.5)
             num1.set_position(450+(30*i),550)
-            num2 = arcade.Sprite(f'images/number/{int(seconds[i])}.png',scale=0.5)
+            num2 = arcade.Sprite(f'number/{int(seconds[i])}.png',scale=0.5)
             num2.set_position(530+(30*i),550)
             num1.draw()
             num2.draw()
-        n = arcade.Sprite('images/number/n.png',scale = 0.6)
+        n = arcade.Sprite('number/n.png',scale = 0.6)
         n.set_position(507,550)
         n.draw()
-        goal = arcade.Sprite('images/number/goal.png',scale = 0.6)
+        goal = arcade.Sprite('number/goal.png',scale = 0.6)
         goal.set_position(100,550)
         goal.draw()
         self.draw_goal(self.world.goal,160,52,0.4,30)
-        score = arcade.Sprite('images/number/score.png',scale = 0.6)
+        score = arcade.Sprite('number/score.png',scale = 0.6)
         score.set_position(100,490)
         score.draw()
         self.draw_score(self.world.score,160,112,0.4,30)
